@@ -6,25 +6,32 @@
   home.stateVersion = "25.11";
 
   home.packages = with pkgs; [
+    ast-grep
     bat
+    btop
     claude-code
     codex
-    devenv
     delta
+    devenv
     direnv
+    duf
+    dust
     eza
     fd
     fzf
     gcc
     gh
     gnumake
+    hyperfine
     jq
     just
     kitty
     lazygit
     mise
     neovim
+    nixfmt
     opencode
+    pkg-config
     python3
     ripgrep
     rustup
@@ -34,7 +41,6 @@
     unzip
     wget
     yq-go
-    zip
     zellij
     zoxide
   ];
