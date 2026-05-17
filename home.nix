@@ -37,6 +37,10 @@
     VISUAL = "nvim";
   };
 
+  xdg.configFile."zellij/config.kdl".text = ''
+    default_shell "zsh"
+  '';
+
   home.file.".config/kitty/kitty.conf".text = ''
     font_family      Hack Nerd Font Mono
     font_size        16
