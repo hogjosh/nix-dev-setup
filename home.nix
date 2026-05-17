@@ -35,6 +35,8 @@
     VISUAL = "nvim";
   };
 
+  home.file.".config/nvim".source = ./nvim;
+
   home.file.".config/mise/config.toml".text = ''
     [tools]
     erlang = "latest"
