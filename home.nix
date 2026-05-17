@@ -16,6 +16,7 @@
     jq
     just
     kdePackages.kate
+    kitty
     lazygit
     mise
     neovim
@@ -30,10 +31,24 @@
     zoxide
   ];
 
+  home.sessionPath = [ "$HOME/.cargo/bin" ];
+
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
   };
+
+  home.file.".config/kitty/kitty.conf".text = ''
+    font_family      Hack Nerd Font Mono
+    font_size        16
+    background_opacity 0.95
+    enable_audio_bell no
+    confirm_os_window_close 0
+
+    map ctrl+c copy_to_clipboard
+    map ctrl+v paste_from_clipboard
+    map shift+insert paste_from_selection
+  '';
 
   home.file.".config/nvim".source = ./nvim;
 
