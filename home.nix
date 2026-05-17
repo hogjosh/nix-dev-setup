@@ -12,7 +12,9 @@
     eza
     fd
     fzf
+    gcc
     gh
+    gnumake
     jq
     just
     kitty
