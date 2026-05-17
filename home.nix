@@ -15,7 +15,6 @@
     gh
     jq
     just
-    kdePackages.kate
     kitty
     lazygit
     mise
