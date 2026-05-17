@@ -7,6 +7,7 @@
 
   home.packages = with pkgs; [
     bat
+    codex
     delta
     direnv
     eza
