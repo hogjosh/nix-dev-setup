@@ -22,12 +22,16 @@
     mise
     neovim
     opencode
+    python3
     ripgrep
     rustup
     starship
     tldr
     tree
+    unzip
+    wget
     yq-go
+    zip
     zellij
     zoxide
   ];
