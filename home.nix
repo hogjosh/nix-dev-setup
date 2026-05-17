@@ -44,6 +44,7 @@
     background_opacity 0.95
     enable_audio_bell no
     confirm_os_window_close 0
+    shell zsh
 
     map ctrl+c copy_to_clipboard
     map ctrl+v paste_from_clipboard
