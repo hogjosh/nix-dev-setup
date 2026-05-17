@@ -9,6 +9,7 @@
     bat
     claude-code
     codex
+    devenv
     delta
     direnv
     eza

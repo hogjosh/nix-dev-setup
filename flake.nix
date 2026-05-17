@@ -7,6 +7,9 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    devenv = {
+      url = "github:cachix/devenv";
+    };
     nur = {
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -17,13 +20,14 @@
   };
 
   outputs =
-    { nixpkgs, home-manager, nur, opencode, ... }:
+    { nixpkgs, home-manager, devenv, nur, opencode, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
         config.allowUnfree = true;
         inherit system;
         overlays = [
+          devenv.overlays.default
           nur.overlays.default
           opencode.overlays.default
         ];
