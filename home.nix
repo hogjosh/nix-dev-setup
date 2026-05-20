@@ -14,6 +14,7 @@
     delta
     devenv
     direnv
+    discord
     duf
     dust
     eza
