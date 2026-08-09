@@ -31,6 +31,8 @@ explicitly calls for a migration.
 - Keep shared Zellij behavior in `zellij/config.kdl`, not as an inline Nix
   string. Preserve the minimal configuration until a deliberate keybinding or
   layout workflow is chosen.
+- Keep shared Kitty preferences in `kitty/kitty.conf`, not as an inline Nix
+  string. The required Nerd Font belongs in `home.packages` beside Kitty.
 - Put machine-wide command-line tools and runtimes in `home.packages`. Retain
   Mise for project-specific versions and runtimes not available at a suitable
   version from this flake's pinned Nixpkgs. The sole global Mise tool is the

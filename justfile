@@ -19,6 +19,9 @@ check: validate
     codex --version
     zellij --version
     direnv --version
+    mosh --version
+    ffmpeg -version
+    hf --help
     gh --version
     just --version
     tldr --version

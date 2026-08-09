@@ -49,6 +49,7 @@ apply the resulting profile, so use them deliberately.
 | `flake.lock` | Records the exact input revisions. Change it only as part of an intentional input update. |
 | `home.nix` | Defines packages, shell, Git, terminal, Direnv, Starship, and managed configuration files. |
 | `plasma.nix` | Defines per-user KDE Plasma input preferences. |
+| `kitty/kitty.conf` | Shared Kitty terminal preferences, including the installed Hack Nerd Font and font size. |
 | `justfile` | Provides shortcuts for applying and smoke-checking the profile. |
 | `nvim/` | Neovim configuration symlinked to `~/.config/nvim` by Home Manager. |
 | `zellij/config.kdl` | Shared Zellij configuration deployed to `~/.config/zellij/config.kdl`. |
@@ -83,6 +84,10 @@ after exit and short output does not open a pager.
 
 The profile also provides CMake and Difftastic. Run `git difft` for an opt-in,
 language-aware structural diff; ordinary `git diff` continues to use Delta.
+
+It also includes `mosh`, `ffmpeg`, and the Hugging Face `hf` CLI. Kitty uses
+the managed Hack Nerd Font at 15 pt. To change its persistent font or size,
+edit `kitty/kitty.conf`, run `just switch`, and restart Kitty.
 
 Git uses the personal `josh.hogan@me.com` identity, rebases pulls, and uses
 Delta by default. `git alias-main` is an opt-in helper for repositories whose
