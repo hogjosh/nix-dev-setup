@@ -89,6 +89,11 @@ It also includes `mosh`, `ffmpeg`, and the Hugging Face `hf` CLI. Kitty uses
 the managed Hack Nerd Font at 15 pt. To change its persistent font or size,
 edit `kitty/kitty.conf`, run `just switch`, and restart Kitty.
 
+Kitty starts new windows at an exact 120 by 35 character grid instead of
+remembering the previous pixel dimensions. On Plasma Wayland, Kitty cannot
+snap manual resizing to character-cell boundaries; any leftover pixels are
+kept at the bottom and right edges rather than forming a centered border.
+
 Git uses the personal `josh.hogan@me.com` identity, rebases pulls, and uses
 Delta by default. `git alias-main` is an opt-in helper for repositories whose
 remote still uses `master`; it creates local `main` aliases without changing
