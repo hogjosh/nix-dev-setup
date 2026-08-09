@@ -61,9 +61,7 @@
 
   xdg.configFile."zellij/config.kdl" = {
     force = true;
-    text = ''
-      default_shell "zsh"
-    '';
+    source = ./zellij/config.kdl;
   };
 
   home.file.".config/kitty/kitty.conf".text = ''
@@ -186,6 +184,11 @@
     enableZshIntegration = true;
     settings = {
       add_newline = true;
+      nix_shell = {
+        symbol = "❄️ ";
+        impure_msg = "";
+        format = "via [$symbol$state]($style)";
+      };
       git_branch = {
         format = "\\[[$symbol$branch(:$remote_branch)]($style)\\] ";
         symbol = " ";

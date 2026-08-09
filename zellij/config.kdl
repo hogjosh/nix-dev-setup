@@ -1,0 +1,2 @@
+// Shared Zellij configuration. Keep machine-local paths and state out of this file.
+default_shell "zsh"

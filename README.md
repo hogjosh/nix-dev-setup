@@ -50,6 +50,7 @@ apply the resulting profile, so use them deliberately.
 | `home.nix` | Defines packages, shell, Git, terminal, Direnv, Starship, and managed configuration files. |
 | `justfile` | Provides shortcuts for applying and smoke-checking the profile. |
 | `nvim/` | Neovim configuration symlinked to `~/.config/nvim` by Home Manager. |
+| `zellij/config.kdl` | Shared Zellij configuration deployed to `~/.config/zellij/config.kdl`. |
 | `AGENTS.md` | Repository-specific instructions for people and coding agents making changes. |
 
 ## Neovim
@@ -80,6 +81,9 @@ after exit and short output does not open a pager.
 
 The profile also provides CMake and Difftastic. Run `git difft` for an opt-in,
 language-aware structural diff; ordinary `git diff` continues to use Delta.
+
+Starship shows a snowflake segment while a Nix shell or Devenv environment is
+active, making project-scoped toolchains visible in the prompt.
 
 ## Scope and safety
 
