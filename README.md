@@ -48,7 +48,7 @@ apply the resulting profile, so use them deliberately.
 | `flake.nix` | Declares pinned inputs and exports the `hogan` Home Manager configuration. |
 | `flake.lock` | Records the exact input revisions. Change it only as part of an intentional input update. |
 | `home.nix` | Defines packages, shell, Git, terminal, Direnv, Starship, and managed configuration files. |
-| `plasma.nix` | Defines per-user KDE Plasma settings, beginning with keyboard repeat behavior. |
+| `plasma.nix` | Defines per-user KDE Plasma input preferences. |
 | `justfile` | Provides shortcuts for applying and smoke-checking the profile. |
 | `nvim/` | Neovim configuration symlinked to `~/.config/nvim` by Home Manager. |
 | `zellij/config.kdl` | Shared Zellij configuration deployed to `~/.config/zellij/config.kdl`. |
@@ -93,8 +93,9 @@ Starship shows a snowflake segment while a Nix shell or Devenv environment is
 active, making project-scoped toolchains visible in the prompt.
 
 KDE Plasma settings are managed separately in `plasma.nix`. The keyboard uses
-a 300 ms repeat delay and 25 repeats per second; add other confirmed desktop
-preferences there rather than changing NixOS system configuration.
+a 300 ms repeat delay and 25 repeats per second. The Logitech MX Ergo uses
+pointer speed `0.40` with the no-acceleration profile. Add other confirmed
+desktop preferences there rather than changing NixOS system configuration.
 
 ## Scope and safety
 
