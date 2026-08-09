@@ -28,6 +28,9 @@ explicitly calls for a migration.
   clear versioning reason.
 - `git difft` is an opt-in structural diff backed by Difftastic. Keep Delta as
   the default Git pager unless a task explicitly changes that preference.
+- Direnv uses `nix-direnv` and suppresses routine environment-diff output;
+  retain its 30-second evaluation warning unless project workflows require a
+  different threshold.
 - Do not commit generated Home Manager results, Neovim plugin state, or local
   secrets. Put machine-local shell settings in the already-supported
   `~/.config/env/local.sh` file instead of this repository.

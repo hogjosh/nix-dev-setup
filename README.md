@@ -72,6 +72,9 @@ hand-managed global npm install. After applying a change to this profile, run
 Nix development uses the `nixd` language server, `nixfmt` formatter, and
 `statix` linter. Neovim is configured to use `nixd` for Nix files.
 
+Direnv uses `nix-direnv` for cached project environments. Activation keeps its
+environment-diff output quiet and warns only after a 30-second evaluation.
+
 The profile also provides CMake and Difftastic. Run `git difft` for an opt-in,
 language-aware structural diff; ordinary `git diff` continues to use Delta.
 
