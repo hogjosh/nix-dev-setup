@@ -94,6 +94,18 @@ remembering the previous pixel dimensions. On Plasma Wayland, Kitty cannot
 snap manual resizing to character-cell boundaries; any leftover pixels are
 kept at the bottom and right edges rather than forming a centered border.
 
+## Remote desktop
+
+Plasma's KRDP server starts with the logged-in `hogan` Plasma session and
+shares it over RDP on port 3389. It uses the existing Linux account password;
+its self-signed TLS certificate and private key are generated locally under
+`~/.local/share/krdpserver/` and are not repository state. Connect from a Mac
+with Windows App using `192.168.1.50:3389` and username `hogan`.
+
+KRDP cannot access the SDDM login screen. Use SSH for reboot and recovery.
+The NixOS firewall must allow TCP 3389; keep RDP on the LAN or behind a private
+network such as Tailscale, never a public router port-forward.
+
 Git uses the personal `josh.hogan@me.com` identity, rebases pulls, and uses
 Delta by default. `git alias-main` is an opt-in helper for repositories whose
 remote still uses `master`; it creates local `main` aliases without changing

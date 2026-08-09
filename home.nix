@@ -1,4 +1,9 @@
-{ pkgs, devenvPackage, ... }:
+{
+  lib,
+  pkgs,
+  devenvPackage,
+  ...
+}:
 
 {
   imports = [ ./plasma.nix ];
@@ -72,6 +77,62 @@
   home.file.".config/kitty/kitty.conf".source = ./kitty/kitty.conf;
 
   home.file.".config/nvim".source = ./nvim;
+
+  # KRDP shares the current Plasma session over RDP. It uses the existing
+  # Linux account for authentication; its TLS private key stays local.
+  xdg.configFile."krdpserverrc".text = ''
+    [General]
+    Certificate=/home/hogan/.local/share/krdpserver/krdp.crt
+    CertificateKey=/home/hogan/.local/share/krdpserver/krdp.key
+    SystemUserEnabled=true
+  '';
+
+  # KRDP 6.5 identifies itself with this hyphenated ID, while Nixpkgs ships
+  # only the non-hyphenated desktop entry. Plasma's portal needs both to agree.
+  xdg.dataFile."applications/org.kde.krdp-server.desktop".text = ''
+    [Desktop Entry]
+    Type=Application
+    Name=KRDP
+    Exec=/run/current-system/sw/bin/krdpserver
+    Icon=krfb
+    Terminal=false
+    NoDisplay=true
+    X-KDE-Wayland-Interfaces=org_kde_kwin_fake_input,zkde_screencast_unstable_v1
+  '';
+
+  home.activation.krdpCertificate = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    certificate_directory="$HOME/.local/share/krdpserver"
+    certificate="$certificate_directory/krdp.crt"
+    certificate_key="$certificate_directory/krdp.key"
+
+    if [ ! -s "$certificate" ] || [ ! -s "$certificate_key" ]; then
+      mkdir -p "$certificate_directory"
+      umask 077
+      ${pkgs.openssl}/bin/openssl req -nodes -new -x509 \
+        -keyout "$certificate_key" \
+        -out "$certificate" \
+        -days 3650 \
+        -subj '/CN=nixos'
+    fi
+  '';
+
+  systemd.user.services.krdpserver = {
+    Unit = {
+      Description = "KDE Plasma RDP server";
+      After = [
+        "plasma-xdg-desktop-portal-kde.service"
+        "plasma-core.target"
+      ];
+    };
+    Service = {
+      # Pre-authorize the server to share this user session through Plasma's
+      # Remote Desktop portal before every service start.
+      ExecStartPre = "${pkgs.systemd}/bin/busctl --user call org.freedesktop.impl.portal.PermissionStore /org/freedesktop/impl/portal/PermissionStore org.freedesktop.impl.portal.PermissionStore SetPermission sbssas kde-authorized true remote-desktop org.kde.krdp-server 1 yes";
+      ExecStart = "/run/current-system/sw/bin/krdpserver";
+      Restart = "on-abnormal";
+    };
+    Install.WantedBy = [ "plasma-workspace.target" ];
+  };
 
   # Keep Codex on the npm release stream instead of the version pinned in
   # nixpkgs. Mise supplies the shim while Node.js is provided by home.packages.

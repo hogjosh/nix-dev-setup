@@ -28,6 +28,9 @@ explicitly calls for a migration.
 - `plasma.nix` owns per-user KDE Plasma preferences. Keep it narrow and add a
   setting only after its desired value is known; do not put Plasma preferences
   in NixOS system configuration.
+- KRDP is a user service declared in `home.nix`. It shares only an existing
+  Plasma session and uses the Linux account password; never commit its
+  generated TLS key or introduce a repository-stored remote-desktop password.
 - Keep shared Zellij behavior in `zellij/config.kdl`, not as an inline Nix
   string. Preserve the minimal configuration until a deliberate keybinding or
   layout workflow is chosen.
