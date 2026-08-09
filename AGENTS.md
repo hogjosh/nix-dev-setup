@@ -25,6 +25,9 @@ explicitly calls for a migration.
   `~/.config/env/local.sh` file instead of this repository.
 - Preserve unrelated working-tree changes. This configuration is normally
   applied on the user's live machine, so make small, reviewable edits.
+- Keep documentation and agent guidance aligned with the configuration and
+  workflows they describe. Commit completed work as small, logical, atomic
+  commits rather than accumulating unrelated changes.
 
 ## Verify before handoff
 
