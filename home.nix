@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, devenvPackage, ... }:
 
 {
   home.username = "hogan";
@@ -12,7 +12,7 @@
     claude-code
     cmake
     delta
-    devenv
+    devenvPackage
     difftastic
     direnv
     discord

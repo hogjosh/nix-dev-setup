@@ -20,14 +20,20 @@
   };
 
   outputs =
-    { nixpkgs, home-manager, devenv, nur, opencode, ... }:
+    {
+      nixpkgs,
+      home-manager,
+      devenv,
+      nur,
+      opencode,
+      ...
+    }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
         config.allowUnfree = true;
         inherit system;
         overlays = [
-          devenv.overlays.default
           nur.overlays.default
           opencode.overlays.default
         ];
@@ -37,6 +43,9 @@
       homeConfigurations."hogan" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [ ./home.nix ];
+        extraSpecialArgs = {
+          devenvPackage = devenv.packages.${system}.default;
+        };
       };
     };
 }
