@@ -31,6 +31,7 @@
     mise
     neovim
     nixfmt
+    nodejs_24
     opencode
     pkg-config
     python3
@@ -80,7 +81,6 @@
     erlang = "latest"
     rebar = "latest"
     elixir = "latest"
-    node = "lts"
   '';
 
   programs.zsh = {
