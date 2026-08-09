@@ -10,8 +10,10 @@
     bat
     btop
     claude-code
+    cmake
     delta
     devenv
+    difftastic
     direnv
     discord
     duf
@@ -168,6 +170,7 @@
         undo = "reset --soft HEAD~1";
         outgoing = "log @{u}..HEAD";
         incoming = "log HEAD..@{u}";
+        difft = "!GIT_EXTERNAL_DIFF=difft git diff";
       };
     };
     ignores = [

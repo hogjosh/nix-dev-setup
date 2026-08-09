@@ -26,6 +26,8 @@ explicitly calls for a migration.
   version from this flake's pinned Nixpkgs. The sole global Mise tool is the
   latest npm-backed Codex CLI; do not add other global Mise tools without a
   clear versioning reason.
+- `git difft` is an opt-in structural diff backed by Difftastic. Keep Delta as
+  the default Git pager unless a task explicitly changes that preference.
 - Do not commit generated Home Manager results, Neovim plugin state, or local
   secrets. Put machine-local shell settings in the already-supported
   `~/.config/env/local.sh` file instead of this repository.

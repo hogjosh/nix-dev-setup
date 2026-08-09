@@ -72,6 +72,9 @@ hand-managed global npm install. After applying a change to this profile, run
 Nix development uses the `nixd` language server, `nixfmt` formatter, and
 `statix` linter. Neovim is configured to use `nixd` for Nix files.
 
+The profile also provides CMake and Difftastic. Run `git difft` for an opt-in,
+language-aware structural diff; ordinary `git diff` continues to use Delta.
+
 ## Scope and safety
 
 Keep NixOS-level configuration—such as boot, networking, desktop services, and
