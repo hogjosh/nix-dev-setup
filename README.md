@@ -23,15 +23,18 @@ before applying; use it intentionally, since it changes `flake.lock`.
 
 ## Validate changes
 
-Evaluate the flake without writing a lock file:
+Evaluate the locked flake without building, activating, or writing a lock file:
 
 ```bash
-nix flake show --no-write-lock-file
-nix eval .#homeConfigurations.hogan.config.home.username --raw --no-write-lock-file
+just validate
 ```
 
-`just check` is a post-activation smoke check for selected installed commands.
-It is not a complete configuration test.
+`just check` runs that evaluation and then smoke-checks selected installed
+commands. It is intended for an already activated profile, not as a complete
+test suite.
+
+Use `just codex-update` to refresh the latest npm release of Codex without
+updating unrelated Nix inputs or packages.
 
 ## Repository map
 
@@ -55,9 +58,11 @@ specifications are in [`nvim/`](nvim/README.md).
 Use Home Manager for tools needed consistently across this machine. This
 includes Node.js 24, development utilities, and the command-line applications
 listed in `home.nix`. Mise remains available for project-specific version
-requirements. Prefer a project-local `mise.toml` when a project needs a
-runtime version that differs from this global profile; this repository does not
-manage a global Mise tool list.
+requirements and owns one intentional global exception: the latest npm release
+of Codex. This keeps Codex current independently of the Nixpkgs pin without a
+hand-managed global npm install. After applying a change to this profile, run
+`mise install` to install declared Mise tools. Prefer a project-local
+`mise.toml` for every other runtime version that differs from this profile.
 
 ## Scope and safety
 

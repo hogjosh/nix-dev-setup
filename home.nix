@@ -10,7 +10,6 @@
     bat
     btop
     claude-code
-    codex
     delta
     devenv
     direnv
@@ -75,6 +74,13 @@
   '';
 
   home.file.".config/nvim".source = ./nvim;
+
+  # Keep Codex on the npm release stream instead of the version pinned in
+  # nixpkgs. Mise supplies the shim while Node.js is provided by home.packages.
+  home.file.".config/mise/config.toml".text = ''
+    [tools]
+    "npm:@openai/codex" = "latest"
+  '';
 
   programs.zsh = {
     enable = true;

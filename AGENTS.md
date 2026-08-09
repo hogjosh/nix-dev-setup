@@ -22,8 +22,9 @@ explicitly calls for a migration.
   configuration.
 - Put machine-wide command-line tools and runtimes in `home.packages`. Retain
   Mise for project-specific versions and runtimes not available at a suitable
-  version from this flake's pinned Nixpkgs; do not add a global Mise tool list
-  here.
+  version from this flake's pinned Nixpkgs. The sole global Mise tool is the
+  latest npm-backed Codex CLI; do not add other global Mise tools without a
+  clear versioning reason.
 - Do not commit generated Home Manager results, Neovim plugin state, or local
   secrets. Put machine-local shell settings in the already-supported
   `~/.config/env/local.sh` file instead of this repository.
@@ -40,13 +41,13 @@ Run the checks that fit the change:
 ```bash
 nixfmt flake.nix home.nix
 stylua nvim
-nix flake show --no-write-lock-file
-nix eval .#homeConfigurations.hogan.config.home.username --raw --no-write-lock-file
+just validate
 ```
 
 Formatting tools are installed by this profile and may not be available before
 the first activation. `just check` verifies selected commands after activation;
-it does not evaluate the Home Manager configuration. Apply only when the task
+it first evaluates the Home Manager configuration. After changing the Mise
+declaration, apply the profile and run `mise install`. Apply only when the task
 requires it:
 
 ```bash
