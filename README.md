@@ -69,6 +69,9 @@ hand-managed global npm install. After applying a change to this profile, run
 `mise install` to install declared Mise tools. Prefer a project-local
 `mise.toml` for every other runtime version that differs from this profile.
 
+Nix development uses the `nixd` language server, `nixfmt` formatter, and
+`statix` linter. Neovim is configured to use `nixd` for Nix files.
+
 ## Scope and safety
 
 Keep NixOS-level configuration—such as boot, networking, desktop services, and

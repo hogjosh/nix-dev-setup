@@ -29,6 +29,7 @@
     lazygit
     mise
     neovim
+    nixd
     nixfmt
     nodejs_24
     opencode
@@ -37,6 +38,8 @@
     ripgrep
     rustup
     starship
+    statix
+    stylua
     tldr
     tree
     unzip

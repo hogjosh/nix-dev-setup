@@ -14,6 +14,7 @@ LazyVim, bootstrapped through `lazy.nvim` in `init.lua` and
 | `lua/config/keymaps.lua` | Local key mappings. |
 | `lua/config/autocmds.lua` | Local autocommands. |
 | `lua/plugins/` | Plugin specifications loaded automatically by `lazy.nvim`. |
+| `lua/plugins/nix.lua` | Enables `nixd` for Nix files and disables the alternative `nil_ls` server. |
 | `lua/plugins/ui.lua` | UI overrides; currently disables `bufferline.nvim`. |
 | `lua/plugins/example.lua` | Disabled reference examples. It has no effect unless its early return is removed. |
 | `stylua.toml` | Lua formatting rules. |

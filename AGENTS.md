@@ -19,7 +19,8 @@ explicitly calls for a migration.
   an intentional input update, and review the resulting diff.
 - Keep local Neovim customizations under `nvim/lua/config/` or
   `nvim/lua/plugins/`. `example.lua` is disabled documentation, not active
-  configuration.
+  configuration. `nvim/lua/plugins/nix.lua` selects the Nix-provided `nixd`
+  language server over LazyVim's alternative `nil_ls` server.
 - Put machine-wide command-line tools and runtimes in `home.packages`. Retain
   Mise for project-specific versions and runtimes not available at a suitable
   version from this flake's pinned Nixpkgs. The sole global Mise tool is the
