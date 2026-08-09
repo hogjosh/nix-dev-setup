@@ -17,6 +17,11 @@
     opencode = {
       url = "github:anomalyco/opencode";
     };
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
   outputs =
@@ -26,6 +31,7 @@
       devenv,
       nur,
       opencode,
+      plasma-manager,
       ...
     }:
     let
@@ -42,7 +48,10 @@
     {
       homeConfigurations."hogan" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        modules = [ ./home.nix ];
+        modules = [
+          plasma-manager.homeModules.plasma-manager
+          ./home.nix
+        ];
         extraSpecialArgs = {
           devenvPackage = devenv.packages.${system}.default;
         };

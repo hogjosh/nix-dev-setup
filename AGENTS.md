@@ -25,6 +25,9 @@ explicitly calls for a migration.
   `~/.config/nvim-local`. Keep durable cross-machine settings in this
   repository; use that external path only for private or machine-specific
   additions.
+- `plasma.nix` owns per-user KDE Plasma preferences. Keep it narrow and add a
+  setting only after its desired value is known; do not put Plasma preferences
+  in NixOS system configuration.
 - Keep shared Zellij behavior in `zellij/config.kdl`, not as an inline Nix
   string. Preserve the minimal configuration until a deliberate keybinding or
   layout workflow is chosen.
