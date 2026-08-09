@@ -31,3 +31,17 @@ stylua nvim
 Restart Neovim to load configuration changes. Plugin installation and updates
 are managed by `lazy.nvim`; its state and lockfile are intentionally stored in
 Neovim's state directory, outside this repository.
+
+## Local overrides
+
+The tracked configuration remains managed by Home Manager. For additions that
+belong only on this machine, create an untracked directory at
+`~/.config/nvim-local`. It is appended to Neovim's runtime path before
+LazyVim loads, so local plugin specifications can live at, for example:
+
+```text
+~/.config/nvim-local/lua/plugins/my-local-plugin.lua
+```
+
+Keep durable, cross-machine changes in this repository. Local overrides are
+for experiments, private settings, or machine-specific integrations.
