@@ -104,8 +104,8 @@
       gd = "git diff";
       gds = "git diff --staged";
 
-      hs = "nix run home-manager/release-25.11 -- switch --flake ~/dev/nix-dev-setup";
-      hu = "(cd ~/dev/nix-dev-setup && nix flake update) && nix run home-manager/release-25.11 -- switch --flake ~/dev/nix-dev-setup";
+      hs = "home-manager switch --flake ~/dev/nix-dev-setup";
+      hu = "(cd ~/dev/nix-dev-setup && nix flake update) && home-manager switch --flake ~/dev/nix-dev-setup";
 
       ".." = "cd ..";
       "..." = "cd ../..";
