@@ -76,13 +76,6 @@
 
   home.file.".config/nvim".source = ./nvim;
 
-  home.file.".config/mise/config.toml".text = ''
-    [tools]
-    erlang = "latest"
-    rebar = "latest"
-    elixir = "latest"
-  '';
-
   programs.zsh = {
     enable = true;
     enableCompletion = true;

@@ -55,9 +55,9 @@ specifications are in [`nvim/`](nvim/README.md).
 Use Home Manager for tools needed consistently across this machine. This
 includes Node.js 24, development utilities, and the command-line applications
 listed in `home.nix`. Mise remains available for project-specific version
-requirements and for the newer Erlang/Elixir toolchain currently requested by
-its managed global configuration. Prefer a project-local `mise.toml` when a
-project needs a runtime version that differs from this global profile.
+requirements. Prefer a project-local `mise.toml` when a project needs a
+runtime version that differs from this global profile; this repository does not
+manage a global Mise tool list.
 
 ## Scope and safety
 

@@ -22,7 +22,8 @@ explicitly calls for a migration.
   configuration.
 - Put machine-wide command-line tools and runtimes in `home.packages`. Retain
   Mise for project-specific versions and runtimes not available at a suitable
-  version from this flake's pinned Nixpkgs.
+  version from this flake's pinned Nixpkgs; do not add a global Mise tool list
+  here.
 - Do not commit generated Home Manager results, Neovim plugin state, or local
   secrets. Put machine-local shell settings in the already-supported
   `~/.config/env/local.sh` file instead of this repository.
