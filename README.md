@@ -74,7 +74,8 @@ Nix development uses the `nixd` language server, `nixfmt` formatter, and
 `statix` linter. Neovim is configured to use `nixd` for Nix files.
 
 Direnv uses `nix-direnv` for cached project environments. Activation keeps its
-environment-diff output quiet and warns only after a 30-second evaluation.
+environment-diff output quiet and warns only after a 30-second evaluation. Its
+Zsh hook, like Starship's, is initialized by Home Manager.
 
 The managed session sets `LESS` so color-capable pager output remains visible
 after exit and short output does not open a pager.

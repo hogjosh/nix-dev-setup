@@ -48,7 +48,6 @@
     wget
     yq-go
     zellij
-    zoxide
   ];
 
   home.sessionPath = [ "$HOME/.cargo/bin" ];
@@ -127,9 +126,6 @@
       fi
 
       eval "$(mise activate zsh)"
-      eval "$(direnv hook zsh)"
-      eval "$(zoxide init zsh)"
-      eval "$(starship init zsh)"
     '';
   };
 
@@ -239,6 +235,7 @@
 
   programs.direnv = {
     enable = true;
+    enableZshIntegration = true;
     nix-direnv.enable = true;
     config.global = {
       hide_env_diff = true;

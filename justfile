@@ -19,7 +19,6 @@ check: validate
     codex --version
     zellij --version
     direnv --version
-    zoxide --version
     gh --version
     just --version
     tldr --version
