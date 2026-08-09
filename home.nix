@@ -169,10 +169,21 @@
         undo = "reset --soft HEAD~1";
         outgoing = "log @{u}..HEAD";
         incoming = "log HEAD..@{u}";
+        alias-main = "!git symbolic-ref refs/heads/main refs/heads/master && git symbolic-ref refs/remotes/origin/main refs/remotes/origin/master";
         difft = "!GIT_EXTERNAL_DIFF=difft git diff";
       };
     };
+    signing.format = null;
     ignores = [
+      ".DS_Store"
+      ".DS_Store?"
+      "._*"
+      ".Spotlight-V100"
+      ".Trashes"
+      ".idea/"
+      "*.swp"
+      "*.swo"
+      "**/.claude/settings.local.json"
       ".direnv/"
       "result"
       "result-*"

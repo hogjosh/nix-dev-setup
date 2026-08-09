@@ -35,6 +35,10 @@ explicitly calls for a migration.
   clear versioning reason.
 - `git difft` is an opt-in structural diff backed by Difftastic. Keep Delta as
   the default Git pager unless a task explicitly changes that preference.
+- Git uses the personal identity and portable settings shared with the Studio
+  Mac. Do not add macOS Keychain or Kaleidoscope integration here; do not add
+  a blanket `.vscode/` global ignore, because projects may intentionally track
+  VS Code workspace settings.
 - Direnv uses `nix-direnv` and suppresses routine environment-diff output;
   retain its 30-second evaluation warning unless project workflows require a
   different threshold.

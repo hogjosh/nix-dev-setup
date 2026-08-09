@@ -82,6 +82,11 @@ after exit and short output does not open a pager.
 The profile also provides CMake and Difftastic. Run `git difft` for an opt-in,
 language-aware structural diff; ordinary `git diff` continues to use Delta.
 
+Git uses the personal `josh.hogan@me.com` identity, rebases pulls, and uses
+Delta by default. `git alias-main` is an opt-in helper for repositories whose
+remote still uses `master`; it creates local `main` aliases without changing
+the remote.
+
 Starship shows a snowflake segment while a Nix shell or Devenv environment is
 active, making project-scoped toolchains visible in the prompt.
 
