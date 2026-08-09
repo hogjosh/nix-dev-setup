@@ -75,6 +75,9 @@ Nix development uses the `nixd` language server, `nixfmt` formatter, and
 Direnv uses `nix-direnv` for cached project environments. Activation keeps its
 environment-diff output quiet and warns only after a 30-second evaluation.
 
+The managed session sets `LESS` so color-capable pager output remains visible
+after exit and short output does not open a pager.
+
 The profile also provides CMake and Difftastic. Run `git difft` for an opt-in,
 language-aware structural diff; ordinary `git diff` continues to use Delta.
 

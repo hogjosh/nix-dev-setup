@@ -56,6 +56,7 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
+    LESS = "-R --no-init --quit-if-one-screen";
   };
 
   xdg.configFile."zellij/config.kdl" = {
