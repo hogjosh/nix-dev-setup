@@ -54,6 +54,10 @@ requires it:
 just switch
 ```
 
+`just update` and `just update-input <name>` both modify `flake.lock` and
+apply the profile. Do not run them unless an intentional dependency update is
+in scope.
+
 ## Documentation
 
 Keep `README.md` focused on operating the Home Manager profile and

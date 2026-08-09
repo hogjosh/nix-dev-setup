@@ -36,6 +36,11 @@ test suite.
 Use `just codex-update` to refresh the latest npm release of Codex without
 updating unrelated Nix inputs or packages.
 
+To update Nix-managed software, review the lockfile diff and run either
+`just update` for every input or `just update-input <name>` for one input (for
+example, `just update-input nixpkgs`). Both commands change `flake.lock` and
+apply the resulting profile, so use them deliberately.
+
 ## Repository map
 
 | Path | Responsibility |
