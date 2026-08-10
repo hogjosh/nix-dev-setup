@@ -18,6 +18,7 @@
     btop
     claude-code
     cmake
+    coolercontrol.coolercontrol-gui
     delta
     devenvPackage
     difftastic
