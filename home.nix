@@ -5,6 +5,26 @@
   ...
 }:
 
+let
+  # Moshi distributes a standalone Linux binary rather than a Nixpkgs package.
+  # Pin its release artifact and checksum so Home Manager installs it reproducibly.
+  moshiHook = pkgs.stdenvNoCC.mkDerivation {
+    pname = "moshi-hook";
+    version = "0.2.80";
+
+    src = pkgs.fetchurl {
+      url = "https://cdn.getmoshi.app/hook/v0.2.80/moshi-hook_Linux_x86_64.tar.gz";
+      hash = "sha256-eeyDmYKT1G5cuFIvB3FOEKBrMeK9VhMc34RtITVL8aE=";
+    };
+
+    sourceRoot = ".";
+    unpackPhase = "tar -xzf $src";
+    installPhase = ''
+      install -Dm755 moshi-hook "$out/bin/moshi-hook"
+      ln -s moshi-hook "$out/bin/moshi"
+    '';
+  };
+in
 {
   imports = [ ./plasma.nix ];
 
@@ -34,6 +54,7 @@
     gh
     gnumake
     (nerd-fonts.hack)
+    herdr
     hyperfine
     jq
     just
@@ -41,6 +62,7 @@
     lazygit
     mise
     mosh
+    moshiHook
     neovim
     nixd
     nixfmt
@@ -55,6 +77,7 @@
     statix
     stylua
     tldr
+    tmux
     tree
     unzip
     wget
@@ -76,6 +99,10 @@
   };
 
   home.file.".config/kitty/kitty.conf".source = ./kitty/kitty.conf;
+
+  # Herdr uses its built-in defaults until options are added here. Keep this
+  # path managed so future durable preferences have a clear home.
+  xdg.configFile."herdr/config.toml".source = ./herdr/config.toml;
 
   home.file.".config/nvim".source = ./nvim;
 
@@ -133,6 +160,25 @@
       Restart = "on-abnormal";
     };
     Install.WantedBy = [ "plasma-workspace.target" ];
+  };
+
+  # Moshi Hook connects local coding agents to the Moshi iOS app. With user
+  # lingering enabled, this user service also runs before graphical login.
+  systemd.user.services.moshi-hook = {
+    Unit = {
+      Description = "Moshi agent hook daemon";
+      After = [ "network-online.target" ];
+      Wants = [ "network-online.target" ];
+      # Pairing creates this local, secret-bearing file. Do not run an
+      # unpaired daemon in a restart loop before setup is complete.
+      ConditionPathExists = "%h/.config/moshi/config.toml";
+    };
+    Service = {
+      ExecStart = "${moshiHook}/bin/moshi-hook serve";
+      Restart = "on-failure";
+      RestartSec = 5;
+    };
+    Install.WantedBy = [ "default.target" ];
   };
 
   # Keep Codex on the npm release stream instead of the version pinned in

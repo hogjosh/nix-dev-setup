@@ -1,0 +1,5 @@
+# Herdr configuration
+#
+# This file deliberately has no overrides: Herdr uses its built-in defaults.
+# Add durable, cross-machine preferences here as you learn what you want.
+# Run `herdr --default-config` to view the full commented reference.

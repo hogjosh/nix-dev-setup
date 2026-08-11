@@ -49,6 +49,7 @@ apply the resulting profile, so use them deliberately.
 | `flake.lock` | Records the exact input revisions. Change it only as part of an intentional input update. |
 | `home.nix` | Defines packages, shell, Git, terminal, Direnv, Starship, and managed configuration files. |
 | `plasma.nix` | Defines per-user KDE Plasma input preferences. |
+| `herdr/config.toml` | Placeholder for durable Herdr preferences; it currently preserves Herdr's built-in defaults. |
 | `kitty/kitty.conf` | Shared Kitty terminal preferences, including the installed Hack Nerd Font and font size. |
 | `justfile` | Provides shortcuts for applying and smoke-checking the profile. |
 | `nvim/` | Neovim configuration symlinked to `~/.config/nvim` by Home Manager. |
@@ -85,9 +86,29 @@ after exit and short output does not open a pager.
 The profile also provides CMake and Difftastic. Run `git difft` for an opt-in,
 language-aware structural diff; ordinary `git diff` continues to use Delta.
 
-It also includes `mosh`, `ffmpeg`, and the Hugging Face `hf` CLI. Kitty uses
-the managed Hack Nerd Font at 15 pt. To change its persistent font or size,
-edit `kitty/kitty.conf`, run `just switch`, and restart Kitty.
+Herdr is installed as an agent-aware terminal multiplexer. Its configuration is
+managed at `~/.config/herdr/config.toml`; it currently contains no overrides,
+so Herdr uses its built-in defaults. Launch `herdr` from a project when you
+want a session. It starts and restores its own session server, so the profile
+does not create an empty Herdr service at boot.
+
+It also includes `mosh`, `tmux`, `moshi-hook`, `ffmpeg`, and the Hugging Face
+`hf` CLI. `moshi-hook` runs as a restarting user service; enable user lingering
+once with `loginctl enable-linger hogan` to have it start before login and keep
+running after logout. After applying the profile, pair it with the token from
+Moshi and install agent hooks:
+
+```bash
+moshi-hook pair --token <token-from-Moshi>
+moshi-hook install
+systemctl --user restart moshi-hook.service
+```
+
+The pairing token and Moshi-owned settings remain local in
+`~/.config/moshi/config.toml` and are intentionally not managed by this
+repository. Kitty uses the managed Hack Nerd Font at 15 pt. To change its
+persistent font or size, edit `kitty/kitty.conf`, run `just switch`, and restart
+Kitty.
 
 Kitty starts new windows at an exact 120 by 35 character grid instead of
 remembering the previous pixel dimensions. On Plasma Wayland, Kitty cannot
