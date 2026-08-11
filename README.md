@@ -106,9 +106,18 @@ systemctl --user restart moshi-hook.service
 
 The pairing token and Moshi-owned settings remain local in
 `~/.config/moshi/config.toml` and are intentionally not managed by this
-repository. Kitty uses the managed Hack Nerd Font at 15 pt. To change its
-persistent font or size, edit `kitty/kitty.conf`, run `just switch`, and restart
-Kitty.
+repository. To connect Codex state to both Herdr and Moshi, run this one-time
+setup after both tools are installed:
+
+```bash
+herdr integration install codex
+moshi-hook install --target codex
+```
+
+These commands manage their respective hook entries in `~/.codex`; keep those
+mutable tool-owned files outside this repository. Kitty uses the managed Hack
+Nerd Font at 15 pt. To change its persistent font or size, edit
+`kitty/kitty.conf`, run `just switch`, and restart Kitty.
 
 Kitty starts new windows at an exact 120 by 35 character grid instead of
 remembering the previous pixel dimensions. On Plasma Wayland, Kitty cannot
