@@ -109,11 +109,19 @@ in
 
   home.file.".config/kitty/kitty.conf".source = ./kitty/kitty.conf;
 
-  # Keep durable Herdr preferences declarative. The resulting Nix store link is
-  # read-only, so settings that Herdr normally writes belong in this source.
-  xdg.configFile."herdr/config.toml".source = ./herdr/config.toml;
-
   home.file.".config/nvim".source = ./nvim;
+
+  # Herdr writes onboarding, in-app settings, and config migrations. Seed a
+  # normal file once, then leave the mutable live config entirely to Herdr.
+  home.activation.seedHerdrConfig = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    herdr_config="$HOME/.config/herdr/config.toml"
+
+    if [ ! -e "$herdr_config" ]; then
+      ${pkgs.coreutils}/bin/install -Dm644 \
+        "${./herdr/config.toml}" \
+        "$herdr_config"
+    fi
+  '';
 
   # KRDP shares the current Plasma session over RDP. It uses the existing
   # Linux account for authentication; its TLS private key stays local.
