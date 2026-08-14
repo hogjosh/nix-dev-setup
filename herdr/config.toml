@@ -1,5 +1,9 @@
 # Herdr configuration
 #
-# This file deliberately has no overrides: Herdr uses its built-in defaults.
-# Add durable, cross-machine preferences here as you learn what you want.
+# Home Manager deploys this file read-only. Add durable, cross-machine
+# preferences here rather than through Herdr's in-app settings.
 # Run `herdr --default-config` to view the full commented reference.
+
+# The onboarding flow tries to persist this value itself, which cannot work
+# with a read-only, declaratively managed configuration file.
+onboarding = false

@@ -109,8 +109,8 @@ in
 
   home.file.".config/kitty/kitty.conf".source = ./kitty/kitty.conf;
 
-  # Herdr uses its built-in defaults until options are added here. Keep this
-  # path managed so future durable preferences have a clear home.
+  # Keep durable Herdr preferences declarative. The resulting Nix store link is
+  # read-only, so settings that Herdr normally writes belong in this source.
   xdg.configFile."herdr/config.toml".source = ./herdr/config.toml;
 
   home.file.".config/nvim".source = ./nvim;

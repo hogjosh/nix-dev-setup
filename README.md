@@ -64,7 +64,7 @@ project assets, or application caches.
 | `flake.lock` | Records the exact input revisions. Change it only as part of an intentional input update. |
 | `home.nix` | Defines packages, shell, Git, terminal, Direnv, Starship, and managed configuration files. |
 | `plasma.nix` | Defines per-user KDE Plasma input preferences. |
-| `herdr/config.toml` | Placeholder for durable Herdr preferences; it currently preserves Herdr's built-in defaults. |
+| `herdr/config.toml` | Durable Herdr preferences, including declarative onboarding completion. |
 | `kitty/kitty.conf` | Shared Kitty terminal preferences, including the installed Hack Nerd Font and font size. |
 | `justfile` | Provides shortcuts for applying and smoke-checking the profile. |
 | `nvim/` | Neovim configuration symlinked to `~/.config/nvim` by Home Manager. |
@@ -115,10 +115,14 @@ Update a running installation with `herdr update --handoff`, then use
 experimental and may still require a session restart if it cannot preserve the
 running server.
 
-Herdr's configuration is managed at `~/.config/herdr/config.toml`; it currently
-contains no overrides, so Herdr uses its built-in defaults. Launch `herdr` from
-a project when you want a session. It starts and restores its own session
-server, so the profile does not create an empty Herdr service at boot.
+Herdr's configuration is managed read-only at
+`~/.config/herdr/config.toml`. It marks onboarding complete and otherwise uses
+Herdr's built-in defaults. Add persistent preferences to
+`herdr/config.toml`, apply the profile, and run `herdr server reload-config`;
+the in-app settings editor cannot persist changes to the Nix-managed file.
+Launch `herdr` from a project when you want a session. It starts and restores
+its own session server, so the profile does not create an empty Herdr service
+at boot.
 
 It also includes `mosh`, `tmux`, `moshi-hook`, `ffmpeg`, and the Hugging Face
 `hf` CLI. `moshi-hook` runs as a restarting user service; enable user lingering
