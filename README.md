@@ -41,6 +41,21 @@ To update Nix-managed software, review the lockfile diff and run either
 example, `just update-input nixpkgs`). Both commands change `flake.lock` and
 apply the resulting profile, so use them deliberately.
 
+## Nix storage cleanup
+
+Home Manager runs Nix garbage collection weekly, deleting this user's profile
+generations older than 30 days before reclaiming unreferenced store paths. This
+keeps a month of rollback history. To run the scheduled cleanup early, use:
+
+```bash
+systemctl --user start nix-gc.service
+```
+
+Inspect its next run with `systemctl --user list-timers nix-gc.timer`. Before
+using a more aggressive retention period, review `nix-env --list-generations`
+and remember that Nix GC does not remove non-Nix data such as Steam content,
+project assets, or application caches.
+
 ## Repository map
 
 | Path | Responsibility |

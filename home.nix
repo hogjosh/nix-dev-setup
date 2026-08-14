@@ -92,6 +92,14 @@ in
     LESS = "-R --no-init --quit-if-one-screen";
   };
 
+  # Retain a month of rollback generations, then reclaim unreferenced store
+  # paths weekly. This user-level timer never manages NixOS configuration.
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
   xdg.configFile."zellij/config.kdl" = {
     force = true;
     source = ./zellij/config.kdl;
