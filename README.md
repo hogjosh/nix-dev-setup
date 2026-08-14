@@ -81,12 +81,13 @@ specifications are in [`nvim/`](nvim/README.md).
 
 Use Home Manager for tools needed consistently across this machine. This
 includes Node.js 24, development utilities, and the command-line applications
-listed in `home.nix`. Mise remains available for project-specific version
-requirements and owns one intentional global exception: the latest npm release
-of Codex. This keeps Codex current independently of the Nixpkgs pin without a
-hand-managed global npm install. After applying a change to this profile, run
-`mise install` to install declared Mise tools. Prefer a project-local
-`mise.toml` for every other runtime version that differs from this profile.
+listed in `home.nix`. Two stateful, fast-moving tools are deliberate exceptions:
+Mise owns the latest npm release of Codex, and Herdr's official installer owns
+`~/.local/bin/herdr`. Keeping Herdr outside Nix allows its updater to hand a
+running session to a new server without terminating pane processes. After
+applying a change to this profile, run `mise install` to install declared Mise
+tools. Prefer a project-local `mise.toml` for every other runtime version that
+differs from this profile.
 
 Nix development uses the `nixd` language server, `nixfmt` formatter, and
 `statix` linter. Neovim is configured to use `nixd` for Nix files.
@@ -101,11 +102,23 @@ after exit and short output does not open a pager.
 The profile also provides CMake and Difftastic. Run `git difft` for an opt-in,
 language-aware structural diff; ordinary `git diff` continues to use Delta.
 
-Herdr is installed as an agent-aware terminal multiplexer. Its configuration is
-managed at `~/.config/herdr/config.toml`; it currently contains no overrides,
-so Herdr uses its built-in defaults. Launch `herdr` from a project when you
-want a session. It starts and restores its own session server, so the profile
-does not create an empty Herdr service at boot.
+Herdr is an agent-aware terminal multiplexer installed by its official script
+at `~/.local/bin/herdr`; Home Manager keeps that directory on `PATH` but does
+not own the binary. Install or repair the current stable release with:
+
+```bash
+curl -fsSL https://herdr.dev/install.sh | sh
+```
+
+Update a running installation with `herdr update --handoff`, then use
+`herdr status` to confirm the client and server versions match. Live handoff is
+experimental and may still require a session restart if it cannot preserve the
+running server.
+
+Herdr's configuration is managed at `~/.config/herdr/config.toml`; it currently
+contains no overrides, so Herdr uses its built-in defaults. Launch `herdr` from
+a project when you want a session. It starts and restores its own session
+server, so the profile does not create an empty Herdr service at boot.
 
 It also includes `mosh`, `tmux`, `moshi-hook`, `ffmpeg`, and the Hugging Face
 `hf` CLI. `moshi-hook` runs as a restarting user service; enable user lingering

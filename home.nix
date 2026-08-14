@@ -53,7 +53,6 @@ in
     gh
     gnumake
     (nerd-fonts.hack)
-    herdr
     hyperfine
     jq
     just
@@ -84,7 +83,10 @@ in
     zellij
   ];
 
-  home.sessionPath = [ "$HOME/.cargo/bin" ];
+  home.sessionPath = [
+    "$HOME/.local/bin"
+    "$HOME/.cargo/bin"
+  ];
 
   home.sessionVariables = {
     EDITOR = "nvim";
