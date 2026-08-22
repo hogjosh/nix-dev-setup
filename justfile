@@ -20,6 +20,7 @@ check: validate
     zellij --version
     direnv --version
     mosh --version
+    newt --version
     ffmpeg -version
     hf --help
     gh --version

@@ -6,6 +6,23 @@
 }:
 
 let
+  # Pangolin distributes Newt as a standalone binary. Pin the official release
+  # artifact and checksum so the site connector does not track latest.
+  newt = pkgs.stdenvNoCC.mkDerivation {
+    pname = "pangolin-newt";
+    version = "1.16.0";
+
+    src = pkgs.fetchurl {
+      url = "https://github.com/fosrl/newt/releases/download/1.16.0/newt_linux_amd64";
+      hash = "sha256-7bLj1oVJ4Anv3UYZOduAyK5DkV+uid6KMy+KKeAMkqg=";
+    };
+
+    dontUnpack = true;
+    installPhase = ''
+      install -Dm755 "$src" "$out/bin/newt"
+    '';
+  };
+
   # Moshi distributes a standalone Linux binary rather than a Nixpkgs package.
   # Pin its release artifact and checksum so Home Manager installs it reproducibly.
   moshiHook = pkgs.stdenvNoCC.mkDerivation {
@@ -62,6 +79,7 @@ in
     mosh
     moshiHook
     neovim
+    newt
     nixd
     nixfmt
     nodejs_24
@@ -194,6 +212,27 @@ in
       ExecStart = "${moshiHook}/bin/moshi-hook serve";
       Restart = "on-failure";
       RestartSec = 5;
+    };
+    Install.WantedBy = [ "default.target" ];
+  };
+
+  # Newt connects Anvil to the Pangolin site. Pangolin's generated ID and
+  # secret stay in this machine-local file and never enter the Nix store.
+  systemd.user.services.newt = {
+    Unit = {
+      Description = "Pangolin Newt site connector";
+      After = [ "network-online.target" ];
+      Wants = [ "network-online.target" ];
+      ConditionPathExists = "%h/.config/newt/newt.env";
+    };
+    Service = {
+      Environment = "PANGOLIN_ENDPOINT=https://pangolin.hogan.lol";
+      EnvironmentFile = "%h/.config/newt/newt.env";
+      ExecStart = "${newt}/bin/newt";
+      Restart = "always";
+      RestartSec = 2;
+      UMask = "0077";
+      PrivateTmp = true;
     };
     Install.WantedBy = [ "default.target" ];
   };

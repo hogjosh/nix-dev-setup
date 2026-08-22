@@ -122,11 +122,11 @@ later profile activations never overwrite Herdr's settings. Launch `herdr`
 from a project when you want a session. It starts and restores its own session
 server, so the profile does not create an empty Herdr service at boot.
 
-It also includes `mosh`, `tmux`, `moshi-hook`, `ffmpeg`, and the Hugging Face
-`hf` CLI. `moshi-hook` runs as a restarting user service; enable user lingering
-once with `loginctl enable-linger hogan` to have it start before login and keep
-running after logout. After applying the profile, pair it with the token from
-Moshi and install agent hooks:
+It also includes `mosh`, `tmux`, `moshi-hook`, Pangolin Newt, `ffmpeg`, and the
+Hugging Face `hf` CLI. `moshi-hook` and Newt run as restarting user services;
+enable user lingering once with `loginctl enable-linger hogan` to have them
+start before login and keep running after logout. After applying the profile,
+pair Moshi Hook with the token from Moshi and install agent hooks:
 
 ```bash
 moshi-hook pair --token <token-from-Moshi>
@@ -165,6 +165,36 @@ with Windows App using `192.168.1.50:3389` and username `hogan`.
 KRDP cannot access the SDDM login screen. Use SSH for reboot and recovery.
 The NixOS firewall must allow TCP 3389; keep RDP on the LAN or behind a private
 network such as Tailscale, never a public router port-forward.
+
+## Pangolin site connector
+
+Anvil runs the pinned Newt 1.16.0 binary as the Home Manager-managed
+`newt.service` user unit and connects to `https://pangolin.hogan.lol`. The
+service is enabled but remains stopped until its machine-local credentials
+exist. Create an Anvil site in Pangolin, then write only the generated values
+to `~/.config/newt/newt.env` without placing them in this checkout:
+
+```text
+NEWT_ID=<generated-site-niceId>
+NEWT_SECRET=<generated-site-secret>
+```
+
+Restrict that file to the account, restart the unit, and inspect its status:
+
+```bash
+install -d -m 700 ~/.config/newt
+umask 077
+$EDITOR ~/.config/newt/newt.env
+chmod 600 ~/.config/newt/newt.env
+systemctl --user restart newt.service
+systemctl --user status newt.service
+```
+
+Do not add the endpoint to the credential file; Home Manager declares it in
+the unit. Do not commit the Newt ID or secret. The NixOS system configuration
+continues to own OpenSSH and the firewall: TCP 22 is open, and UDP 60000-61000
+is open for Mosh. The homelab configuration owns Pangolin resources, so do not
+create SSH or Mosh resources manually in the dashboard.
 
 Git uses the personal `josh.hogan@me.com` identity, rebases pulls, and uses
 Delta by default. `git alias-main` is an opt-in helper for repositories whose
