@@ -32,8 +32,9 @@ explicitly calls for a migration.
   Plasma session and uses the Linux account password; never commit its
   generated TLS key or introduce a repository-stored remote-desktop password.
 - Pangolin Newt is a user service declared in `home.nix`. Keep its official
-  Linux binary version and endpoint declarative, but keep the generated site ID
-  and secret only in `~/.config/newt/newt.env`. Do not commit them or create
+  Linux binary version and endpoint declarative, but keep the generated Newt ID
+  and secret only in `~/.config/newt/newt.env`. The non-secret site `niceId` is
+  a separate stable identifier; report it for homelab blueprints. Do not create
   Pangolin resources manually; the homelab configuration owns those resources.
 - Keep shared Zellij behavior in `zellij/config.kdl`, not as an inline Nix
   string. Preserve the minimal configuration until a deliberate keybinding or

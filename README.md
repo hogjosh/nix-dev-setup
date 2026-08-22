@@ -175,9 +175,13 @@ exist. Create an Anvil site in Pangolin, then write only the generated values
 to `~/.config/newt/newt.env` without placing them in this checkout:
 
 ```text
-NEWT_ID=<generated-site-niceId>
+NEWT_ID=<generated-Newt-ID>
 NEWT_SECRET=<generated-site-secret>
 ```
+
+`NEWT_ID` is the connector credential identifier, not the site's stable
+`niceId`. Separately record and report the non-secret site `niceId` for the
+homelab blueprints that declare Anvil's Pangolin resources.
 
 Restrict that file to the account, restart the unit, and inspect its status:
 

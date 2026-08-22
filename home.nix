@@ -216,7 +216,7 @@ in
     Install.WantedBy = [ "default.target" ];
   };
 
-  # Newt connects Anvil to the Pangolin site. Pangolin's generated ID and
+  # Newt connects Anvil to the Pangolin site. Pangolin's generated Newt ID and
   # secret stay in this machine-local file and never enter the Nix store.
   systemd.user.services.newt = {
     Unit = {
