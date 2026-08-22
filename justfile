@@ -16,6 +16,7 @@ check: validate
     command -v nvim
     nvim --version
     mise --version
+    grep -Fx 'check_for_update_on_startup = false' "$HOME/.codex/config.toml"
     codex --version
     zellij --version
     direnv --version
@@ -28,7 +29,8 @@ check: validate
     tree --version
     yq --version
 
-# Refresh only the latest-tracking npm Codex package managed by Mise.
+# Refresh only the latest-tracking npm Codex package managed by Mise. Codex's
+# own startup update check stays disabled by the Home Manager activation.
 codex-update:
     mise upgrade npm:@openai/codex
 

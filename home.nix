@@ -198,8 +198,35 @@ in
     Install.WantedBy = [ "default.target" ];
   };
 
+  # Mise owns Codex updates, but Codex and its integrations own the rest of
+  # ~/.codex/config.toml. Enforce only the startup-update setting in place so
+  # Home Manager does not replace their mutable configuration.
+  home.activation.disableCodexStartupUpdates = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    codex_config="$HOME/.codex/config.toml"
+    codex_config_directory="$(${pkgs.coreutils}/bin/dirname "$codex_config")"
+
+    $DRY_RUN_CMD ${pkgs.coreutils}/bin/mkdir -p "$codex_config_directory"
+
+    if [ ! -s "$codex_config" ]; then
+      $DRY_RUN_CMD ${pkgs.coreutils}/bin/install -m600 \
+        ${pkgs.writeText "codex-startup-update-config" ''
+          check_for_update_on_startup = false
+        ''} \
+        "$codex_config"
+    elif ${pkgs.gnugrep}/bin/grep -q '^check_for_update_on_startup[[:space:]]*=' "$codex_config"; then
+      $DRY_RUN_CMD ${pkgs.gnused}/bin/sed --follow-symlinks -i \
+        's/^check_for_update_on_startup[[:space:]]*=.*/check_for_update_on_startup = false/' \
+        "$codex_config"
+    else
+      $DRY_RUN_CMD ${pkgs.gnused}/bin/sed --follow-symlinks -i \
+        '1i check_for_update_on_startup = false' \
+        "$codex_config"
+    fi
+  '';
+
   # Keep Codex on the npm release stream instead of the version pinned in
-  # nixpkgs. Mise supplies the shim while Node.js is provided by home.packages.
+  # nixpkgs. Mise supplies the shim while Node.js is provided by home.packages;
+  # the activation above prevents Codex from competing with Mise for updates.
   home.file.".config/mise/config.toml".text = ''
     [tools]
     "npm:@openai/codex" = "latest"

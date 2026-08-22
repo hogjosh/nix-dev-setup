@@ -39,8 +39,10 @@ explicitly calls for a migration.
 - Put machine-wide command-line tools and runtimes in `home.packages`. Retain
   Mise for project-specific versions and runtimes not available at a suitable
   version from this flake's pinned Nixpkgs. The sole global Mise tool is the
-  latest npm-backed Codex CLI; do not add other global Mise tools without a
-  clear versioning reason.
+  latest npm-backed Codex CLI. Home Manager must keep Codex's
+  `check_for_update_on_startup` setting false while preserving the rest of its
+  mutable user configuration; do not let Codex compete with Mise for update
+  ownership or add other global Mise tools without a clear versioning reason.
 - `git difft` is an opt-in structural diff backed by Difftastic. Keep Delta as
   the default Git pager unless a task explicitly changes that preference.
 - Git uses the personal identity and portable settings shared with the Studio

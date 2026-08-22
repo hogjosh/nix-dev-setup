@@ -33,8 +33,9 @@ just validate
 commands. It is intended for an already activated profile, not as a complete
 test suite.
 
-Use `just codex-update` to refresh the latest npm release of Codex without
-updating unrelated Nix inputs or packages.
+Codex's startup update check is disabled because Mise owns its installed
+version. Use `just codex-update` to refresh the latest npm release explicitly
+without updating unrelated Nix inputs or packages.
 
 To update Nix-managed software, review the lockfile diff and run either
 `just update` for every input or `just update-input <name>` for one input (for
@@ -83,8 +84,11 @@ Use Home Manager for tools needed consistently across this machine. This
 includes Node.js 24, development utilities, and the command-line applications
 listed in `home.nix`. Two stateful, fast-moving tools are deliberate exceptions:
 Mise owns the latest npm release of Codex, and Herdr's official installer owns
-`~/.local/bin/herdr`. Keeping Herdr outside Nix allows its updater to hand a
-running session to a new server without terminating pane processes. After
+`~/.local/bin/herdr`. Home Manager enforces
+`check_for_update_on_startup = false` in Codex's user configuration so Codex
+does not compete with Mise for update ownership. Keeping Herdr outside Nix
+allows its updater to hand a running session to a new server without
+terminating pane processes. After
 applying a change to this profile, run `mise install` to install declared Mise
 tools. Prefer a project-local `mise.toml` for every other runtime version that
 differs from this profile.
@@ -145,8 +149,10 @@ moshi-hook install --target codex
 ```
 
 These commands manage their respective hook entries in `~/.codex`; keep those
-mutable tool-owned files outside this repository. Kitty uses the managed Hack
-Nerd Font at 15 pt. To change its persistent font or size, edit
+mutable tool-owned files outside this repository. Home Manager edits only the
+top-level Codex startup-update setting in place and preserves the remaining
+tool-owned configuration. Kitty uses the managed Hack Nerd Font at 15 pt. To
+change its persistent font or size, edit
 `kitty/kitty.conf`, run `just switch`, and restart Kitty.
 
 Kitty starts new windows at an exact 120 by 35 character grid instead of
