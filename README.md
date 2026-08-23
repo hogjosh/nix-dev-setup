@@ -166,6 +166,11 @@ KRDP cannot access the SDDM login screen. Use SSH for reboot and recovery.
 The NixOS firewall must allow TCP 3389; keep RDP on the LAN or behind a private
 network such as Tailscale, never a public router port-forward.
 
+To keep the Plasma session reachable, automatic screen locking (including on
+resume) and AC idle-suspend are disabled in `plasma.nix`. Manual screen locking
+still works, but a manually locked session must be unlocked before KRDP can
+share the desktop again.
+
 ## Pangolin site connector
 
 Anvil runs the pinned Newt 1.16.0 binary as the Home Manager-managed
