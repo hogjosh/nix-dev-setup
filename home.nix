@@ -27,11 +27,11 @@ let
   # Pin its release artifact and checksum so Home Manager installs it reproducibly.
   moshiHook = pkgs.stdenvNoCC.mkDerivation {
     pname = "moshi-hook";
-    version = "0.2.80";
+    version = "0.3.0";
 
     src = pkgs.fetchurl {
-      url = "https://cdn.getmoshi.app/hook/v0.2.80/moshi-hook_Linux_x86_64.tar.gz";
-      hash = "sha256-eeyDmYKT1G5cuFIvB3FOEKBrMeK9VhMc34RtITVL8aE=";
+      url = "https://cdn.getmoshi.app/hook/v0.3.0/moshi-hook_Linux_x86_64.tar.gz";
+      hash = "sha256-nKP/WN+CuQkhkeUYVa7TQ1pPbV8yBi0fDuWmaJMEaZA=";
     };
 
     sourceRoot = ".";
