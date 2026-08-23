@@ -23,7 +23,12 @@
       lockOnResume = false;
     };
 
-    # Do not suspend this remote-access workstation while it is on AC power.
-    powerdevil.AC.autoSuspend.action = "nothing";
+    # Keep this remote-access workstation awake and visible while it is on AC
+    # power.
+    powerdevil.AC = {
+      autoSuspend.action = "nothing";
+      turnOffDisplay.idleTimeout = "never";
+      dimDisplay.enable = false;
+    };
   };
 }
