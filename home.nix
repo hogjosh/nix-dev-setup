@@ -76,7 +76,9 @@ in
     just
     kitty
     lazygit
-    lutris
+    (lutris.override {
+      extraPkgs = pkgs: [ pkgs.umu-launcher-unwrapped ];
+    })
     mise
     mosh
     moshiHook
@@ -97,6 +99,7 @@ in
     tldr
     tmux
     tree
+    umu-launcher
     unzip
     wget
     yq-go

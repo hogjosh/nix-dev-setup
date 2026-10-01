@@ -80,6 +80,11 @@ specifications are in [`nvim/`](nvim/README.md).
 
 ## Toolchain ownership
 
+Lutris includes umu in its compatibility environment for Proton-based
+Battle.net and WoW installations. After changing that environment, close and
+reopen Lutris before retrying an installer. `umu-run` is also available directly
+from the Home Manager profile.
+
 Use Home Manager for tools needed consistently across this machine. This
 includes Node.js 24, development utilities, and the command-line applications
 listed in `home.nix`. Two stateful, fast-moving tools are deliberate exceptions:
