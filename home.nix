@@ -77,7 +77,10 @@ in
     kitty
     lazygit
     (lutris.override {
-      extraPkgs = pkgs: [ pkgs.umu-launcher-unwrapped ];
+      extraPkgs = pkgs: [
+        pkgs.umu-launcher-unwrapped
+        pkgs.vulkan-tools
+      ];
     })
     mise
     mosh
