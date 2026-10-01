@@ -76,6 +76,7 @@ in
     just
     kitty
     lazygit
+    lutris
     mise
     mosh
     moshiHook
