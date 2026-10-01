@@ -39,10 +39,7 @@
       pkgs = import nixpkgs {
         config.allowUnfree = true;
         inherit system;
-        overlays = [
-          nur.overlays.default
-          opencode.overlays.default
-        ];
+        overlays = [ nur.overlays.default ];
       };
     in
     {
@@ -54,6 +51,7 @@
         ];
         extraSpecialArgs = {
           devenvPackage = devenv.packages.${system}.default;
+          opencodePackage = opencode.packages.${system}.default;
         };
       };
     };

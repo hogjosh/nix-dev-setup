@@ -2,6 +2,7 @@
   lib,
   pkgs,
   devenvPackage,
+  opencodePackage,
   ...
 }:
 
@@ -83,7 +84,7 @@ in
     nixd
     nixfmt
     nodejs_24
-    opencode
+    opencodePackage
     pkg-config
     python3
     python3Packages.huggingface-hub
