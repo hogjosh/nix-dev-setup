@@ -29,10 +29,6 @@ check: validate
     tree --version
     yq --version
 
-# Refresh only the latest-tracking npm Codex package managed by Mise.
-codex-update:
-    mise upgrade npm:@openai/codex
-
 # Update every flake input, then apply the resulting Home Manager profile.
 update:
     nix flake update

@@ -33,8 +33,9 @@ just validate
 commands. It is intended for an already activated profile, not as a complete
 test suite.
 
-Use `just codex-update` to refresh the latest npm release of Codex without
-updating unrelated Nix inputs or packages.
+Codex is pinned in `home.nix` to an npm release. To update it without changing
+unrelated Nix inputs, change that version, run `just switch`, and then run
+`mise install`.
 
 To update Nix-managed software, review the lockfile diff and run either
 `just update` for every input or `just update-input <name>` for one input (for
@@ -82,7 +83,7 @@ specifications are in [`nvim/`](nvim/README.md).
 Use Home Manager for tools needed consistently across this machine. This
 includes Node.js 24, development utilities, and the command-line applications
 listed in `home.nix`. Two stateful, fast-moving tools are deliberate exceptions:
-Mise owns the latest npm release of Codex, and Herdr's official installer owns
+Mise owns the pinned npm release of Codex, and Herdr's official installer owns
 `~/.local/bin/herdr`. Keeping Herdr outside Nix allows its updater to hand a
 running session to a new server without terminating pane processes. After
 applying a change to this profile, run `mise install` to install declared Mise

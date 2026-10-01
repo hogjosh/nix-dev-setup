@@ -239,10 +239,11 @@ in
   };
 
   # Keep Codex on the npm release stream instead of the version pinned in
-  # nixpkgs. Mise supplies the shim while Node.js is provided by home.packages.
+  # nixpkgs. Pin the npm release here so profile activations are reproducible;
+  # Mise supplies the shim while Node.js is provided by home.packages.
   home.file.".config/mise/config.toml".text = ''
     [tools]
-    "npm:@openai/codex" = "latest"
+    "npm:@openai/codex" = "0.160.0"
   '';
 
   programs.zsh = {
