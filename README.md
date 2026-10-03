@@ -140,6 +140,11 @@ moshi-hook install
 systemctl --user restart moshi-hook.service
 ```
 
+Moshi Hook updates are pinned in `home.nix`. After changing its version, release
+URL, and checksum, run `just validate` and `just switch`, then restart
+`moshi-hook.service`. Run `moshi-hook --version` and `moshi-hook doctor` to
+verify the installed CLI and running daemon. Pairing survives upgrades.
+
 The pairing token and Moshi-owned settings remain local in
 `~/.config/moshi/config.toml` and are intentionally not managed by this
 repository. To connect Codex state to both Herdr and Moshi, run this one-time
