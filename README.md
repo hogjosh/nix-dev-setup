@@ -185,7 +185,7 @@ KRDP can share the desktop again.
 
 ## Pangolin site connector
 
-Anvil runs the pinned Newt 1.16.0 binary as the Home Manager-managed
+Anvil runs the pinned Newt 1.19.0 binary as the Home Manager-managed
 `newt.service` user unit and connects to `https://pangolin.hogan.lol`. The
 service is enabled but remains stopped until its machine-local credentials
 exist. Create an Anvil site in Pangolin, then write only the generated values
@@ -237,3 +237,7 @@ system packages—in the system configuration (commonly `/etc/nixos/`), not in
 this repository. Do not casually change `home.stateVersion`, the target user,
 or the target architecture: they describe the existing deployed profile rather
 than an upgrade preference.
+
+The 2026-10-23 coordinated Pangolin update pins Newt 1.19.0. Its official
+Linux amd64 release checksum was independently verified before activation.
+Keep connector credentials in the existing machine-local environment file.

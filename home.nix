@@ -11,11 +11,11 @@ let
   # artifact and checksum so the site connector does not track latest.
   newt = pkgs.stdenvNoCC.mkDerivation {
     pname = "pangolin-newt";
-    version = "1.16.0";
+    version = "1.19.0";
 
     src = pkgs.fetchurl {
-      url = "https://github.com/fosrl/newt/releases/download/1.16.0/newt_linux_amd64";
-      hash = "sha256-7bLj1oVJ4Anv3UYZOduAyK5DkV+uid6KMy+KKeAMkqg=";
+      url = "https://github.com/fosrl/newt/releases/download/1.19.0/newt_linux_amd64";
+      hash = "sha256-bUDiI/pJ2Lz6m3CUIIxY/2Fpl5eb/3yITQr2H8wcU3Y=";
     };
 
     dontUnpack = true;
