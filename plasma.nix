@@ -23,11 +23,11 @@
       lockOnResume = false;
     };
 
-    # Keep this remote-access workstation awake and visible while it is on AC
-    # power.
+    # Keep this remote-access workstation awake on AC power while allowing the
+    # display to turn off after 15 idle minutes.
     powerdevil.AC = {
       autoSuspend.action = "nothing";
-      turnOffDisplay.idleTimeout = "never";
+      turnOffDisplay.idleTimeout = 900;
       dimDisplay.enable = false;
     };
   };

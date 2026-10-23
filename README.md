@@ -177,10 +177,11 @@ KRDP cannot access the SDDM login screen. Use SSH for reboot and recovery.
 The NixOS firewall must allow TCP 3389; keep RDP on the LAN or behind a private
 network such as Tailscale, never a public router port-forward.
 
-To keep the Plasma session reachable, automatic screen locking (including on
-resume), AC idle-suspend, display blanking, and idle dimming are disabled in
-`plasma.nix`. Manual screen locking still works, but a manually locked session
-must be unlocked before KRDP can share the desktop again.
+On AC power, the display turns off after 15 minutes of inactivity while the
+machine stays awake. Automatic screen locking (including on resume), AC
+idle-suspend, and idle dimming are disabled in `plasma.nix`. Manual screen
+locking still works, but a manually locked session must be unlocked before
+KRDP can share the desktop again.
 
 ## Pangolin site connector
 
