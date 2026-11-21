@@ -150,7 +150,10 @@ old `~/.local/bin/herdr` binary after leaving those sessions. The previous
 
 The Studio Mac is registered in Core's local machine state as `studio`, using
 the verified SSH target `hogan@192.168.1.161`. Home Manager does not recreate
-this registration. Check `hc machine ls` first; if the entry is missing, add
+this registration: Core has no machine-list setting in its configuration and
+writes learned remote IDs and versions to its mutable `machines.json` under
+`~/.local/state/herdr-core`. Keep that registry Core-owned rather than linking
+it into the Nix store. Check `hc machine ls` first; if the entry is missing, add
 it with `hc machine add hogan@192.168.1.161 --name studio`. Core uses the
 existing remote installation and SSH authentication. See the
 [machine connection guide](https://github.com/herdrdev/herdr-core/blob/master/docs/machines.md).

@@ -43,6 +43,10 @@ explicitly calls for a migration.
   updater can preserve running terminals. Keep `~/.local/bin` on `PATH` and
   leave mutable Core state in `~/.config/herdr-core`; do not restore the old
   Herdr TUI onboarding seed or its Codex integration command.
+- Core's machine registry is writable runtime state under
+  `~/.local/state/herdr-core`, including learned remote IDs and versions.
+  Manage registrations with `hc machine`, not a Nix-owned `machines.json`.
+  Keep the non-secret connection and recovery instructions in `README.md`.
 - Moshi Hook's official installer owns `~/.local/bin/moshi-hook` and its
   `moshi` alias so the iOS app can update the writable binary. Home Manager
   owns `moshi-hook.service`; skip service installation and first-run prompts
