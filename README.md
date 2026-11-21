@@ -148,9 +148,11 @@ hc --version
 ```
 
 Update with `hc update`; running Core terminals survive the update. Start a
-shell from a project with `hc run --bg --name work`, list terminals with
+shell from a project with `hc run --bg --keep --name work`, list terminals with
 `hc ls`, and attach with `hc attach work`. Detach with `Ctrl+\`.
-Run `hc --skill` for the installed version's agent manual.
+`--keep` recreates a fresh shell when Core recovers a lost program, including
+after a reboot; it does not resume the previous agent. Run `hc --skill` for
+the installed version's agent manual.
 
 Core reads optional local settings from `~/.config/herdr-core/config.toml`.
 The profile uses its defaults and does not seed a configuration or start a
@@ -180,6 +182,15 @@ hc attach studio/work
 Detach with `Ctrl+\`; the shell keeps running on the Mac. If the Mac's address
 changes, update its local Core registration. Keep SSH keys and Core's mutable
 machine state outside this repository.
+
+Moshi opens Core through its own `moshi-hook hc attach` bridge. On Anvil,
+the default core needs a local terminal to show; terminals from the registered
+Studio machine alone do not supply one. If connecting immediately exits after
+a reboot, check `hc server status` and `hc ls`. When there are no local
+terminals, create one with `hc run --bg --keep --name work --cwd /home/hogan`,
+then reconnect to the default Herdr Core session in Moshi. Check the bridge
+from an interactive terminal with `moshi-hook hc attach --session default`.
+Keep these shells in Core's runtime state rather than a Home Manager service.
 
 The profile also includes `mosh`, `tmux`, Pangolin Newt, `ffmpeg`, and the
 Hugging Face `hf` CLI. `moshi-hook` and Newt run as restarting user services;
