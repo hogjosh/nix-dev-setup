@@ -262,6 +262,7 @@ in
       ll = "eza -la";
       lt = "eza --tree";
       z = "zellij";
+      codex = "codex --no-daemon";
 
       gs = "git status";
       gl = "git log --oneline --graph --decorate";

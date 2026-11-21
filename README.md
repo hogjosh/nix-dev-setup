@@ -53,6 +53,10 @@ merging `check_for_update_on_startup = false` and
 preserving other settings and comments. Codex's own updater stays disabled.
 See the [official configuration reference](https://developers.openai.com/codex/config-reference/).
 
+The managed Zsh alias runs `codex --no-daemon`, keeping interactive Codex
+sessions attached to their terminal without the shared background server.
+Additional arguments are passed through, for example `codex resume`.
+
 To update Nix-managed software, review the lockfile diff and run either
 `just update` for every input or `just update-input <name>` for one input (for
 example, `just update-input nixpkgs`). Both commands change `flake.lock` and
