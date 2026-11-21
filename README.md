@@ -148,6 +148,25 @@ and settings are separate. Recreate needed sessions in Core and retire the
 old `~/.local/bin/herdr` binary after leaving those sessions. The previous
 `~/.config/herdr` directory is no longer managed or used by this profile.
 
+The Studio Mac is registered in Core's local machine state as `studio`, using
+the verified SSH target `hogan@192.168.1.161`. Home Manager does not recreate
+this registration. Check `hc machine ls` first; if the entry is missing, add
+it with `hc machine add hogan@192.168.1.161 --name studio`. Core uses the
+existing remote installation and SSH authentication. See the
+[machine connection guide](https://github.com/herdrdev/herdr-core/blob/master/docs/machines.md).
+
+Run a command there with `hc exec --on studio /usr/bin/sw_vers`. For an
+interactive remote shell:
+
+```bash
+hc run --bg --on studio --cwd /Users/hogan --name work
+hc attach studio/work
+```
+
+Detach with `Ctrl+\`; the shell keeps running on the Mac. If the Mac's address
+changes, update its local Core registration. Keep SSH keys and Core's mutable
+machine state outside this repository.
+
 The profile also includes `mosh`, `tmux`, Pangolin Newt, `ffmpeg`, and the
 Hugging Face `hf` CLI. `moshi-hook` and Newt run as restarting user services;
 enable user lingering once with `loginctl enable-linger hogan` to have them
