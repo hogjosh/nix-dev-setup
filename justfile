@@ -2,10 +2,10 @@ default:
     @just --list
 
 switch:
-    nix run home-manager/release-25.11 -- switch --flake .
+    nix run --inputs-from . home-manager -- switch --flake .
 
 switch-abs:
-    /nix/var/nix/profiles/default/bin/nix run home-manager/release-25.11 -- switch --flake .
+    /nix/var/nix/profiles/default/bin/nix run --inputs-from . home-manager -- switch --flake .
 
 validate:
     nix flake check --no-build --no-write-lock-file

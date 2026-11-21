@@ -13,9 +13,9 @@ From the repository root, run:
 just switch
 ```
 
-This invokes Home Manager 25.11 through Nix and applies the `hogan` profile in
-the current checkout. To use a Nix binary at its standard system location,
-use `just switch-abs` instead.
+This invokes this flake's pinned Home Manager input through Nix and applies
+the `hogan` profile in the current checkout. To use a Nix binary at its
+standard system location, use `just switch-abs` instead.
 
 The resulting environment includes a `hs` Zsh alias for applying this checkout
 with the installed `home-manager` command. The `hu` alias updates flake inputs
@@ -57,6 +57,17 @@ To update Nix-managed software, review the lockfile diff and run either
 `just update` for every input or `just update-input <name>` for one input (for
 example, `just update-input nixpkgs`). Both commands change `flake.lock` and
 apply the resulting profile, so use them deliberately.
+
+Lutris and its bundled umu environment come from this profile's Nixpkgs
+input. AMD's kernel driver, Mesa (including 32-bit support), firmware, and
+the Nix daemon belong to the separate stable NixOS flake in `/etc/nixos`.
+Updating this Home Manager profile does not update those system components.
+For a system refresh, update that flake's `nixpkgs` input, build
+`nixosConfigurations.anvil.config.system.build.toplevel`, then run
+`sudo nixos-rebuild boot --flake /etc/nixos#anvil` to select it for the next
+boot. Reboot when ready; the boot menu retains previous generations for
+rollback. Keep the working Battle.net/WoW prefix and selected Proton runner
+local to Lutris rather than recreating them during a package update.
 
 ## Nix storage cleanup
 
