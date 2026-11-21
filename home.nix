@@ -24,24 +24,6 @@ let
     '';
   };
 
-  # Moshi distributes a standalone Linux binary rather than a Nixpkgs package.
-  # Pin its release artifact and checksum so Home Manager installs it reproducibly.
-  moshiHook = pkgs.stdenvNoCC.mkDerivation {
-    pname = "moshi-hook";
-    version = "0.4.15";
-
-    src = pkgs.fetchurl {
-      url = "https://cdn.getmoshi.app/hook/v0.4.15/moshi-hook_Linux_x86_64.tar.gz";
-      hash = "sha256-lgqfvlRNQkBX179PcmQ0G1TXTSAG+g+5OFAYMLI8LsY=";
-    };
-
-    sourceRoot = ".";
-    unpackPhase = "tar -xzf $src";
-    installPhase = ''
-      install -Dm755 moshi-hook "$out/bin/moshi-hook"
-      ln -s moshi-hook "$out/bin/moshi"
-    '';
-  };
 in
 {
   imports = [ ./plasma.nix ];
@@ -84,7 +66,6 @@ in
     })
     mise
     mosh
-    moshiHook
     neovim
     newt
     nixd
@@ -195,6 +176,8 @@ in
 
   # Moshi Hook connects local coding agents to the Moshi iOS app. With user
   # lingering enabled, this user service also runs before graphical login.
+  # Its official installer owns the writable binary so in-app updates can
+  # replace it; Home Manager owns only the service, not the executable.
   systemd.user.services.moshi-hook = {
     Unit = {
       Description = "Moshi agent hook daemon";
@@ -203,9 +186,13 @@ in
       # Pairing creates this local, secret-bearing file. Do not run an
       # unpaired daemon in a restart loop before setup is complete.
       ConditionPathExists = "%h/.config/moshi/config.toml";
+      ConditionFileIsExecutable = "%h/.local/bin/moshi-hook";
     };
     Service = {
-      ExecStart = "${moshiHook}/bin/moshi-hook serve";
+      ExecStart = "%h/.local/bin/moshi-hook serve";
+      Environment = [
+        "PATH=%h/.local/bin:%h/.nix-profile/bin:/etc/profiles/per-user/hogan/bin:/run/current-system/sw/bin"
+      ];
       Restart = "on-failure";
       RestartSec = 5;
     };

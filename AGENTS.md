@@ -43,6 +43,11 @@ explicitly calls for a migration.
   updater can preserve running terminals. Keep `~/.local/bin` on `PATH` and
   leave mutable Core state in `~/.config/herdr-core`; do not restore the old
   Herdr TUI onboarding seed or its Codex integration command.
+- Moshi Hook's official installer owns `~/.local/bin/moshi-hook` and its
+  `moshi` alias so the iOS app can update the writable binary. Home Manager
+  owns `moshi-hook.service`; skip service installation and first-run prompts
+  when running the upstream installer. Keep pairing and update preferences
+  local, and regenerate existing agent hooks when migrating the binary path.
 - Keep shared Kitty preferences in `kitty/kitty.conf`, not as an inline Nix
   string. The required Nerd Font belongs in `home.packages` beside Kitty.
 - Put machine-wide command-line tools and runtimes in `home.packages`. Retain

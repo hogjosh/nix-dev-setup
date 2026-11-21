@@ -86,11 +86,13 @@ from the Home Manager profile.
 
 Use Home Manager for tools needed consistently across this machine. This
 includes Node.js 24, development utilities, and the command-line applications
-listed in `home.nix`. Two stateful, fast-moving tools are deliberate exceptions:
-Mise owns the pinned npm release of Codex, and Herdr Core's official installer
-owns `~/.local/bin/herdr-core` and its `hc` alias. Keeping Core outside Nix
-allows its updater to preserve running terminals. After applying a change to
-this profile, run `mise install` to install declared Mise tools. Prefer a
+listed in `home.nix`. Three stateful, fast-moving tools are deliberate exceptions:
+Mise owns the pinned npm release of Codex. Herdr Core's official installer owns
+`~/.local/bin/herdr-core` and its `hc` alias, allowing its updater to preserve
+running terminals. Moshi Hook's official installer owns `~/.local/bin/moshi-hook`
+and its `moshi` alias so the iOS app can update it in place; Home Manager still
+owns its user service. After applying a change to this profile, run
+`mise install` to install declared Mise tools. Prefer a
 project-local `mise.toml` for every other runtime version that differs from
 this profile.
 
@@ -130,11 +132,20 @@ and settings are separate. Recreate needed sessions in Core and retire the
 old `~/.local/bin/herdr` binary after leaving those sessions. The previous
 `~/.config/herdr` directory is no longer managed or used by this profile.
 
-It also includes `mosh`, `tmux`, `moshi-hook`, Pangolin Newt, `ffmpeg`, and the
+The profile also includes `mosh`, `tmux`, Pangolin Newt, `ffmpeg`, and the
 Hugging Face `hf` CLI. `moshi-hook` and Newt run as restarting user services;
 enable user lingering once with `loginctl enable-linger hogan` to have them
-start before login and keep running after logout. After applying the profile,
-pair Moshi Hook with the token from Moshi and install agent hooks:
+start before login and keep running after logout. Install Moshi Hook with its
+[official installer](https://getmoshi.app/docs/install-moshi-hook), skipping
+its service installer because Home Manager owns the unit. Skip the first-run
+prompt to preserve existing local preferences:
+
+```bash
+curl -fsSL https://getmoshi.app/install.sh | MOSHI_HOOK_SKIP_SERVICE=1 MOSHI_HOOK_SKIP_FIRST_RUN=1 sh
+```
+
+Apply the profile with `just switch`. On a new host, pair Moshi Hook with the
+token from Moshi, install agent hooks, and restart the service:
 
 ```bash
 moshi-hook pair --token <token-from-Moshi>
@@ -142,10 +153,27 @@ moshi-hook install
 systemctl --user restart moshi-hook.service
 ```
 
-Moshi Hook updates are pinned in `home.nix`. After changing its version, release
-URL, and checksum, run `just validate` and `just switch`, then restart
-`moshi-hook.service`. Run `moshi-hook --version` and `moshi-hook doctor` to
-verify the installed CLI and running daemon. Pairing survives upgrades.
+The updater replaces its executable in place, which fails with a read-only
+filesystem error when the executable lives in `/nix/store`.
+When migrating from the previous Nix package, run `moshi-hook install` once
+after installing the writable binary to replace agent hooks that still point
+into `/nix/store`. Pairing survives; no new token is needed. Do not run
+`moshi-hook service install`, which would overwrite the Home Manager unit.
+
+To update from the iOS app, connect to this host over SSH, open Home → Hooks,
+select the host, and use its update action. Under Options → Install updates,
+choose Ask for one-tap updates, Auto for automatic installation, or Off to stop
+checking. The existing local preference is preserved. Per Moshi's
+[update settings](https://getmoshi.app/docs/hook-settings), the daemon checks
+every six hours and automatic updates wait until pending approvals clear.
+Both the daemon and generated hooks use the stable writable binary path, so
+later Home Manager activations do not downgrade app-installed updates.
+
+Manual updates use `moshi-hook update`, followed by
+`systemctl --user restart moshi-hook.service`. Run `moshi-hook --version` and
+`moshi-hook doctor` to verify the installed CLI and running daemon. The CLI
+equivalents of the app's update choices are `moshi-hook set auto-update ask`,
+`moshi-hook set auto-update auto`, and `moshi-hook set auto-update off`.
 
 The pairing token and Moshi-owned settings remain local in
 `~/.config/moshi/config.toml` and are intentionally not managed by this
