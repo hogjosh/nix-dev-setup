@@ -29,6 +29,11 @@ check: validate
     tree --version
     yq --version
 
+# Update only Codex; retain older versions for sessions that are still running.
+update-codex:
+    mise upgrade --no-prune npm:@openai/codex
+    mise exec -- codex --version
+
 # Update every flake input, then apply the resulting Home Manager profile.
 update:
     nix flake update

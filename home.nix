@@ -221,11 +221,30 @@ in
   };
 
   # Keep Codex on the npm release stream instead of the version pinned in
-  # nixpkgs. Pin the npm release here so profile activations are reproducible;
-  # Mise supplies the shim while Node.js is provided by home.packages.
+  # nixpkgs. Mise uses the latest installed release until an explicit upgrade;
+  # it supplies the shim while Node.js is provided by home.packages.
   home.file.".config/mise/config.toml".text = ''
     [tools]
-    "npm:@openai/codex" = "0.160.0"
+    "npm:@openai/codex" = "latest"
+  '';
+
+  # Keep Codex updates explicit through `just update-codex`. Merge only these
+  # keys because Codex and Moshi also write the user's mutable configuration.
+  home.activation.codexManualUpdates = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    run ${pkgs.python3.withPackages (ps: [ ps.tomlkit ])}/bin/python - <<'PY'
+    from pathlib import Path
+    import tomlkit
+
+    path = Path.home() / ".codex/config.toml"
+    original = path.read_text() if path.exists() else ""
+    config = tomlkit.parse(original)
+    config["check_for_update_on_startup"] = False
+    config.setdefault("features", tomlkit.table())["in_app_updates"] = False
+    updated = tomlkit.dumps(config)
+    if updated != original:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(updated)
+    PY
   '';
 
   programs.zsh = {

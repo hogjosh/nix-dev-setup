@@ -33,9 +33,25 @@ just validate
 commands. It is intended for an already activated profile, not as a complete
 test suite.
 
-Codex is pinned in `home.nix` to an npm release. To update it without changing
-unrelated Nix inputs, change that version, run `just switch`, and then run
-`mise install`.
+Codex is declared as `"npm:@openai/codex" = "latest"` in the Mise configuration
+managed by `home.nix`. Mise uses the latest installed version until you
+explicitly upgrade it:
+
+```bash
+just update-codex
+```
+
+This runs `mise upgrade --no-prune npm:@openai/codex` and prints the resulting
+version. Mise resolves and installs the newest release; older installs stay
+available for running sessions. No Nix rebuild or repository change is needed.
+Start a new Codex session to use the updated CLI. Declaring `latest` does not
+schedule automatic upgrades; see [Mise's version behavior](https://mise.jdx.dev/faq.html#does-latest-mean-the-newest-release).
+
+Home Manager disables Codex's startup update checks and in-app updates by
+merging `check_for_update_on_startup = false` and
+`features.in_app_updates = false` into the mutable `~/.codex/config.toml`,
+preserving other settings and comments. Codex's own updater stays disabled.
+See the [official configuration reference](https://developers.openai.com/codex/config-reference/).
 
 To update Nix-managed software, review the lockfile diff and run either
 `just update` for every input or `just update-input <name>` for one input (for
@@ -87,8 +103,8 @@ from the Home Manager profile.
 Use Home Manager for tools needed consistently across this machine. This
 includes Node.js 24, development utilities, and the command-line applications
 listed in `home.nix`. Three stateful, fast-moving tools are deliberate exceptions:
-Mise owns the pinned npm release of Codex. Herdr Core's official installer owns
-`~/.local/bin/herdr-core` and its `hc` alias, allowing its updater to preserve
+Mise owns the latest installed npm release of Codex. Herdr Core's official
+installer owns `~/.local/bin/herdr-core` and its `hc` alias, allowing its updater to preserve
 running terminals. Moshi Hook's official installer owns `~/.local/bin/moshi-hook`
 and its `moshi` alias so the iOS app can update it in place; Home Manager still
 owns its user service. After applying a change to this profile, run
