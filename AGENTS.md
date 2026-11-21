@@ -39,6 +39,10 @@ explicitly calls for a migration.
 - Keep shared Zellij behavior in `zellij/config.kdl`, not as an inline Nix
   string. Preserve the minimal configuration until a deliberate keybinding or
   layout workflow is chosen.
+- Herdr Core (`hc`) is installed by its official installer outside Nix so its
+  updater can preserve running terminals. Keep `~/.local/bin` on `PATH` and
+  leave mutable Core state in `~/.config/herdr-core`; do not restore the old
+  Herdr TUI onboarding seed or its Codex integration command.
 - Keep shared Kitty preferences in `kitty/kitty.conf`, not as an inline Nix
   string. The required Nerd Font belongs in `home.packages` beside Kitty.
 - Put machine-wide command-line tools and runtimes in `home.packages`. Retain

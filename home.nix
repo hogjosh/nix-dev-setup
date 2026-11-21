@@ -137,18 +137,6 @@ in
 
   home.file.".config/nvim".source = ./nvim;
 
-  # Herdr writes onboarding, in-app settings, and config migrations. Seed a
-  # normal file once, then leave the mutable live config entirely to Herdr.
-  home.activation.seedHerdrConfig = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
-    herdr_config="$HOME/.config/herdr/config.toml"
-
-    if [ ! -e "$herdr_config" ]; then
-      ${pkgs.coreutils}/bin/install -Dm644 \
-        "${./herdr/config.toml}" \
-        "$herdr_config"
-    fi
-  '';
-
   # KRDP shares the current Plasma session over RDP. It uses the existing
   # Linux account for authentication; its TLS private key stays local.
   xdg.configFile."krdpserverrc".text = ''

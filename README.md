@@ -65,7 +65,6 @@ project assets, or application caches.
 | `flake.lock` | Records the exact input revisions. Change it only as part of an intentional input update. |
 | `home.nix` | Defines packages, shell, Git, terminal, Direnv, Starship, and managed configuration files. |
 | `plasma.nix` | Defines per-user KDE Plasma input preferences. |
-| `herdr/config.toml` | Initial seed copied when HerdR has no mutable configuration file. |
 | `kitty/kitty.conf` | Shared Kitty terminal preferences, including the installed Hack Nerd Font and font size. |
 | `justfile` | Provides shortcuts for applying and smoke-checking the profile. |
 | `nvim/` | Neovim configuration symlinked to `~/.config/nvim` by Home Manager. |
@@ -88,12 +87,12 @@ from the Home Manager profile.
 Use Home Manager for tools needed consistently across this machine. This
 includes Node.js 24, development utilities, and the command-line applications
 listed in `home.nix`. Two stateful, fast-moving tools are deliberate exceptions:
-Mise owns the pinned npm release of Codex, and Herdr's official installer owns
-`~/.local/bin/herdr`. Keeping Herdr outside Nix allows its updater to hand a
-running session to a new server without terminating pane processes. After
-applying a change to this profile, run `mise install` to install declared Mise
-tools. Prefer a project-local `mise.toml` for every other runtime version that
-differs from this profile.
+Mise owns the pinned npm release of Codex, and Herdr Core's official installer
+owns `~/.local/bin/herdr-core` and its `hc` alias. Keeping Core outside Nix
+allows its updater to preserve running terminals. After applying a change to
+this profile, run `mise install` to install declared Mise tools. Prefer a
+project-local `mise.toml` for every other runtime version that differs from
+this profile.
 
 Nix development uses the `nixd` language server, `nixfmt` formatter, and
 `statix` linter. Neovim is configured to use `nixd` for Nix files.
@@ -108,25 +107,28 @@ after exit and short output does not open a pager.
 The profile also provides CMake and Difftastic. Run `git difft` for an opt-in,
 language-aware structural diff; ordinary `git diff` continues to use Delta.
 
-Herdr is an agent-aware terminal multiplexer installed by its official script
-at `~/.local/bin/herdr`; Home Manager keeps that directory on `PATH` but does
-not own the binary. Install or repair the current stable release with:
+[Herdr Core](https://github.com/herdrdev/herdr-core) runs persistent terminals
+and coding agents through the `hc` CLI. Its official installer places
+`herdr-core` in `~/.local/bin` and adds an `hc` alias when that name is available.
+Home Manager keeps that directory on `PATH` but does not own the binary.
+Install or repair the current release with:
 
 ```bash
-curl -fsSL https://herdr.dev/install.sh | sh
+curl -fsSL https://releases.herdr.dev/core/install.sh | sh
+hc --version
 ```
 
-Update a running installation with `herdr update --handoff`, then use
-`herdr status` to confirm the client and server versions match. Live handoff is
-experimental and may still require a session restart if it cannot preserve the
-running server.
+Update with `hc update`; running Core terminals survive the update. Start a
+shell from a project with `hc run --bg --name work`, list terminals with
+`hc ls`, and attach with `hc attach work`. Detach with `Ctrl+\`.
+Run `hc --skill` for the installed version's agent manual.
 
-Herdr owns its writable configuration at `~/.config/herdr/config.toml`, so its
-onboarding flow, settings UI, and config migrations can update it normally.
-Home Manager copies `herdr/config.toml` there only when no live config exists;
-later profile activations never overwrite Herdr's settings. Launch `herdr`
-from a project when you want a session. It starts and restores its own session
-server, so the profile does not create an empty Herdr service at boot.
+Core reads optional local settings from `~/.config/herdr-core/config.toml`.
+The profile uses its defaults and does not seed a configuration or start a
+Core service at boot. Core replaces the old Herdr TUI workflow; its terminals
+and settings are separate. Recreate needed sessions in Core and retire the
+old `~/.local/bin/herdr` binary after leaving those sessions. The previous
+`~/.config/herdr` directory is no longer managed or used by this profile.
 
 It also includes `mosh`, `tmux`, `moshi-hook`, Pangolin Newt, `ffmpeg`, and the
 Hugging Face `hf` CLI. `moshi-hook` and Newt run as restarting user services;
@@ -147,17 +149,18 @@ verify the installed CLI and running daemon. Pairing survives upgrades.
 
 The pairing token and Moshi-owned settings remain local in
 `~/.config/moshi/config.toml` and are intentionally not managed by this
-repository. To connect Codex state to both Herdr and Moshi, run this one-time
-setup after both tools are installed:
+repository. To connect Codex to Moshi, run this one-time setup after both
+tools are installed:
 
 ```bash
-herdr integration install codex
 moshi-hook install --target codex
 ```
 
-These commands manage their respective hook entries in `~/.codex`; keep those
-mutable tool-owned files outside this repository. Kitty uses the managed Hack
-Nerd Font at 15 pt. To change its persistent font or size, edit
+This command manages Moshi's hook entries in `~/.codex`; keep those mutable
+tool-owned files outside this repository. Core uses status reported by agents
+through OSC 7501 and does not use the old `herdr integration install codex`
+workflow. Kitty uses the managed Hack Nerd Font at 15 pt. To change its
+persistent font or size, edit
 `kitty/kitty.conf`, run `just switch`, and restart Kitty.
 
 Kitty starts new windows at an exact 120 by 35 character grid instead of

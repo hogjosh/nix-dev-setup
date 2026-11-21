@@ -1,7 +1,0 @@
-# Initial Herdr configuration
-#
-# Home Manager copies this seed only when the writable live config does not
-# exist. Herdr owns the live file and may change it afterward.
-# Run `herdr --default-config` to view the full commented reference.
-
-onboarding = false
